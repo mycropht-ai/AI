@@ -98,6 +98,41 @@
 		</Update>
     </AiOperationDefs>
 
+	<AIOperationTeams>
+		<Update>
+			<Where OperationName="Attack Enemy City"/>
+			<Set OngoingStrengthAdvantage="2"/>
+		</Update>
+		<Update>
+			<Where OperationName="City Defense"/>
+			<Set OngoingStrengthAdvantage="1"/>
+		</Update>
+	</AIOperationTeams>
+
+	<AiFavoredItems>
+		<!-- Allow two settler operations -->
+		<Update>
+			<Where ListType="BaseOperationsLimits" Item="CITY_FOUNDING" Value="1"/>
+			<Set Value="2"/>
+		</Update>
+
+		<!-- Increase Expansion Strategy Cities - Default 10, 50 is used for several Civs -->
+		<Update>
+			<Where ListType="LegacyPathStrategyExpansionPseudoYieldBiases" Item="PSEUDOYIELD_NEW_CITY" />
+			<Set Value="50"/>
+		</Update>
+		<!-- Increase Wonder Strategy Cities - Default -25 -->
+		<Update>
+			<Where ListType="LegacyPathStrategyWondersPseudoYieldBiases" Item="PSEUDOYIELD_NEW_CITY" />
+			<Set Value="10"/>
+		</Update>
+		<!-- Increase Wonder Strategy Cities - Default -50 -->
+		<Update>
+			<Where ListType="LegacyPathStrategyImportsPseudoYieldBiases" Item="PSEUDOYIELD_NEW_CITY" />
+			<Set Value="5"/>
+		</Update>
+	</AiFavoredItems>
+
 	<OpTeamRequirements>
 		<!-- 
 		ENEMY CITY ATTACK
@@ -152,19 +187,25 @@
 		<Row TeamName="City Defense" ClassTag="UNIT_CLASS_MELEE" MinNumber="1" MaxNumber="4"/>
 
 		<!-- New row for ranged defense (ensures basic ranged coverage) -->
-		<Row TeamName="City Defense" ClassTag="UNIT_CLASS_RANGED" MinNumber="1" MaxNumber="3"/>
+		<Row TeamName="City Defense" ClassTag="UNIT_CLASS_RANGED" MinNumber="1" MaxNumber="6"/>
 
 		<!-- Optional: allow up to 2 siege units to help defend -->
 		<Row TeamName="City Defense" ClassTag="UNIT_CLASS_SIEGE" MaxNumber="2"/>
 
 		<!--
-		CITY FOUNDING
+		CITY FOUNDERS
 		We lower number of military units for founding a new city as settlers get stuck moving around.
 		-->
 		<!-- Max military units for founding a new city to 1 -->
 		<Update>
-			<Where TeamName="City Founding" ClassTag="UNIT_CLASS_COMBAT"/>
-			<Set MaxNumber="1"/>
+			<Where TeamName="City Founders" ClassTag="UNIT_CLASS_COMBAT"/>
+			<Set MinNumber="1" MaxNumber="1"/>
+		</Update>
+
+		<!-- Just a General isn't helpful -->
+		<Update>
+			<Where TeamName="City Founders" ClassTag="UNIT_CLASS_ARMY_COMMANDER"/>
+			<Set MaxNumber="0"/>
 		</Update>
 
 	</OpTeamRequirements>
