@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Database>
-    <BehaviorTrees>
-        <Row TreeName="Settle New Town v2" />
-    </BehaviorTrees>
-    <BehaviorTreeNodes>
-        <Row TreeName="Settle New Town v2" NodeId="0" NodeType="Sequence" JumpTo="34" />
+	<BehaviorTrees>
+		<Row TreeName="Settle New Town v2" />
+		<Row TreeName="Simple City Assault v2" />
+		<Row TreeName="Minor Power Assault v2" />
+	</BehaviorTrees>
+	<BehaviorTreeNodes>
+		<!-- Settle New Town v2 -->
+		<Row TreeName="Settle New Town v2" NodeId="0" NodeType="Sequence" JumpTo="34" />
         <Row TreeName="Settle New Town v2" NodeId="1" NodeType="Concurrent" JumpTo="27" />
         <Row TreeName="Settle New Town v2" NodeId="2" NodeType="Decode Input" />
 		<!-- 
@@ -45,9 +48,9 @@
 		<Row TreeName="Settle New Town v2" NodeId="18" NodeType="Operation Form Army" />
         <Row TreeName="Settle New Town v2" NodeId="19" NodeType="Operation Recruit Units" />
 		<!-- Logical Or node. Runs all children until it reaches a SUCCESS or RUNNING -->
-        <Row TreeName="Settle New Town v2" NodeId="20" NodeType="Priority" JumpTo="24" />
+        <Row TreeName="Settle New Town v2" NodeId="20" NodeType="Priority" JumpTo="23" />
 		<!-- Success or running becomes failure. Failure goes to success -->
-        <Row TreeName="Settle New Town v2" NodeId="21" NodeType="Not" JumpTo="23" />
+        <Row TreeName="Settle New Town v2" NodeId="21" NodeType="Not" JumpTo="24" />
 		<!-- Army must unpack based on an enemy army or sufficient enemy units -->
         <Row TreeName="Settle New Town v2" NodeId="22" NodeType="Army Must Unpack" />
         <Row TreeName="Settle New Town v2" NodeId="23" NodeType="Operation Unpack Army" />
@@ -66,10 +69,100 @@
         <Row TreeName="Settle New Town v2" NodeId="32" NodeType="Operation Move Army" />
 		<!-- Settle a Town -->
         <Row TreeName="Settle New Town v2" NodeId="33" NodeType="DiplomaticActionLandClaim" />
-    </BehaviorTreeNodes>
 
-    <TreeData>
-        <Row DefnId="0" NodeId="2" TreeName="Settle New Town v2" />
+		<!-- Simple City Assault -->
+		<Row NodeType="Sequence" NodeId="0" TreeName="Simple City Assault v2" JumpTo="53" />
+		<Row NodeType="Reserve Diplomatic Token" NodeId="1" TreeName="Simple City Assault v2" JumpTo="34" />
+		<Row NodeType="Sequence" NodeId="2" TreeName="Simple City Assault v2" JumpTo="34" />
+		<Row NodeType="Concurrent" NodeId="3" TreeName="Simple City Assault v2" JumpTo="34" />
+		<Row NodeType="Operation Recruit Units" NodeId="4" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Form Army" NodeId="5" TreeName="Simple City Assault v2" />
+		<Row NodeType="Concurrent" NodeId="6" TreeName="Simple City Assault v2" JumpTo="12" />
+		<Row NodeType="Priority" NodeId="7" TreeName="Simple City Assault v2" JumpTo="12" />
+		<Row NodeType="Not" NodeId="8" TreeName="Simple City Assault v2" JumpTo="11" />
+		<Row NodeType="Army Must Unpack" NodeId="9" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Unpack Army" NodeId="10" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Attack Units" NodeId="11" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Defend Units" NodeId="12" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Move Army" NodeId="13" TreeName="Simple City Assault v2" />
+		<Row NodeType="Priority" NodeId="14" TreeName="Simple City Assault v2" JumpTo="17" />
+		<Row NodeType="Not" NodeId="15" TreeName="Simple City Assault v2" JumpTo="17" />
+		<Row NodeType="Use Diplomatic Token" NodeId="16" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Form Army" NodeId="17" TreeName="Simple City Assault v2" />
+		<Row NodeType="Concurrent" NodeId="18" TreeName="Simple City Assault v2" JumpTo="33" />
+		<Row NodeType="Operation Recruit Units" NodeId="19" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Form Army" NodeId="20" TreeName="Simple City Assault v2" />
+		
+		<Row NodeType="Check Backup Target" NodeId="21" TreeName="Simple City Assault v2" />
+
+		<Row NodeType="Priority" NodeId="22" TreeName="Simple City Assault v2" JumpTo="30" />
+		<Row NodeType="Concurrent" NodeId="23" TreeName="Simple City Assault v2" JumpTo="28" />
+		<Row NodeType="Not" NodeId="24" TreeName="Simple City Assault v2" JumpTo="26" />
+		<Row NodeType="Army Must Unpack" NodeId="25" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Unpack Army" NodeId="26" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Attack Units" NodeId="27" TreeName="Simple City Assault v2" />
+		<Row NodeType="Army Overrun" NodeId="28" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Form Army" NodeId="29" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Defend Units" NodeId="30" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Move Army" NodeId="31" TreeName="Simple City Assault v2" />
+		<Row NodeType="Rebase Air Support" NodeId="32" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Unpack Army" NodeId="33" TreeName="Simple City Assault v2" />
+		<Row NodeType="Concurrent" NodeId="34" TreeName="Simple City Assault v2" JumpTo="41" />
+		<Row NodeType="Wait Turns" NodeId="35" TreeName="Simple City Assault v2" JumpTo="37" />
+		<Row NodeType="Operation Declare War" NodeId="36" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Defend Units" NodeId="37" TreeName="Simple City Assault v2" />
+		<Row NodeType="Army Issue Commands" NodeId="38" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Attack Units" NodeId="39" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Defend Units" NodeId="40" TreeName="Simple City Assault v2" />
+		<Row NodeType="Concurrent" NodeId="41" TreeName="Simple City Assault v2" JumpTo="53" />
+		<Row NodeType="Operation Defend Units" NodeId="42" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Unpack Army" NodeId="43" TreeName="Simple City Assault v2" />
+		<Row NodeType="Army Issue Commands" NodeId="44" TreeName="Simple City Assault v2" />
+		<Row NodeType="Air Assault" NodeId="45" TreeName="Simple City Assault v2" />
+		<Row NodeType="Rebase Air Support" NodeId="46" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Attack Units" NodeId="47" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Attack City" NodeId="48" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Defend Units" NodeId="49" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Pillage City" NodeId="50" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Form Army" NodeId="51" TreeName="Simple City Assault v2" />
+		<Row NodeType="Operation Move Army" NodeId="52" TreeName="Simple City Assault v2" />
+
+		<!-- Minor Power Assault -->
+		 <Row NodeType="Sequence" NodeId="0" TreeName="Minor Power Assault v2" JumpTo="31" />
+		<Row NodeType="Decode Input" NodeId="1" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Priority" NodeId="2" TreeName="Minor Power Assault v2" JumpTo="31" />
+		<Row NodeType="Concurrent" NodeId="3" TreeName="Minor Power Assault v2" JumpTo="7" />
+		<Row NodeType="Minor Power Status" NodeId="4" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Reserve Diplomatic Token" NodeId="5" TreeName="Minor Power Assault v2" JumpTo="7" />
+		<Row NodeType="Use Diplomatic Token" NodeId="6" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Concurrent" NodeId="7" TreeName="Minor Power Assault v2" JumpTo="31" />
+		<Row NodeType="Minor Power Status" NodeId="8" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Sequence" NodeId="9" TreeName="Minor Power Assault v2" JumpTo="31" />
+		<Row NodeType="Concurrent" NodeId="10" TreeName="Minor Power Assault v2" JumpTo="14" />
+		<Row NodeType="Operation Recruit Units" NodeId="11" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Attack Units" NodeId="12" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Defend Units" NodeId="13" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Form Army" NodeId="14" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Priority" NodeId="15" TreeName="Minor Power Assault v2" JumpTo="23" />
+		<Row NodeType="Concurrent" NodeId="16" TreeName="Minor Power Assault v2" JumpTo="21" />
+		<Row NodeType="Army Must Unpack" NodeId="17" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Unpack Army" NodeId="18" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Defend Units" NodeId="19" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Attack Units" NodeId="20" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Army Overrun" NodeId="21" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Form Army" NodeId="22" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Move Army" NodeId="23" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Concurrent" NodeId="24" TreeName="Minor Power Assault v2" JumpTo="31" />
+		<Row NodeType="Operation Recruit Units" NodeId="25" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Unpack Army" NodeId="26" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Defend Units" NodeId="27" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Disperse Minor Power" NodeId="28" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Attack Units" NodeId="29" TreeName="Minor Power Assault v2" />
+		<Row NodeType="Operation Move Army" NodeId="30" TreeName="Minor Power Assault v2" />
+	</BehaviorTreeNodes>
+
+	<TreeData>
+		<Row DefnId="0" NodeId="2" TreeName="Settle New Town v2" />
         <Row DefnId="1" NodeId="2" TreeName="Settle New Town v2" />
         <Row DefnId="2" NodeId="2" TreeName="Settle New Town v2" />
         <Row DefnId="3" NodeId="2" TreeName="Settle New Town v2" Tag="SettleLocation" />
@@ -91,7 +184,7 @@
         <Row DefnId="0" NodeId="7" TreeName="Settle New Town v2" DefaultData="false" />
         <Row DefnId="2" NodeId="7" TreeName="Settle New Town v2" DefaultData="true" />
         <Row DefnId="3" NodeId="7" TreeName="Settle New Town v2" DefaultData="10" />
-        <Row DefnId="4" NodeId="7" TreeName="Settle New Town v2" DefaultData="true" />
+        <Row DefnId="4" NodeId="7" TreeName="Settle New Town v2" DefaultData="false" />
 		<!-- Recruit Units -->
 		<!--
 			<Row DataName="Operation In Progress" DefnId="0" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
@@ -103,7 +196,7 @@
         <Row DefnId="0" NodeId="8" TreeName="Settle New Town v2" DefaultData="false" />
         <Row DefnId="2" NodeId="8" TreeName="Settle New Town v2" DefaultData="true" />
         <Row DefnId="3" NodeId="8" TreeName="Settle New Town v2" DefaultData="10" />
-        <Row DefnId="4" NodeId="8" TreeName="Settle New Town v2" DefaultData="true" />
+        <Row DefnId="4" NodeId="8" TreeName="Settle New Town v2" DefaultData="false" />
         <!-- Removed TreeData for nodes 11-15 -->
 		<!-- 
 		    <Row DataName="SelectedLocation" DefnId="0" DataType="Map Point" NodeType="CheckSettleLocationValid" />
@@ -146,13 +239,133 @@
 		<Row DefnId="4" NodeId="32" TreeName="Settle New Town v2" DefaultData="1" />
         <Row DefnId="0" NodeId="33" TreeName="Settle New Town v2" Tag="SettleUnit" />
         <Row DefnId="1" NodeId="33" TreeName="Settle New Town v2" Tag="SettleLocation" />
-	</TreeData>
 
-	<AiComponents>
-		<!-- Default Low, Higher is only better with the rest of the mod -->
-		<Update>
-			<Where Component="Tactical"/>
-			<Set DefaultPriority="AI_PRIORITY_LOW"/>
-		</Update>
-	</AiComponents>
+
+		<!-- Simple City Assault -->
+		<Row DefnId="0" NodeId="1" TreeName="Simple City Assault v2" DefaultData="DIPLOMACY_ACTION_DECLARE_WAR" />
+		<!-- Recruit Units -->
+		<!--
+			<Row DataName="Operation In Progress" DefnId="0" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Range" DefnId="1" DataType="int" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Create Units" DefnId="2" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Time Limit" DefnId="3" DataType="int" NodeType="Operation Recruit Units" UserData="True" />
+    		<Row DataName="Allow Stealing" DefnId="4" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+		-->
+		<Row DefnId="0" NodeId="4" TreeName="Simple City Assault v2" DefaultData="false" />
+		<Row DefnId="2" NodeId="4" TreeName="Simple City Assault v2" DefaultData="true" />
+		<Row DefnId="3" NodeId="4" TreeName="Simple City Assault v2" DefaultData="10" />
+		<Row DefnId="4" NodeId="4" TreeName="Simple City Assault v2" DefaultData="false" />
+		<!-- 
+		<Row DataName="Allow Unequal Attacks" DefnId="0" DataType="bool" NodeType="Operation Attack Units" Required="False" UserData="True" />
+		-->
+		<Row DefnId="1" NodeId="11" TreeName="Simple City Assault v2" DefaultData="false" />
+		<Row DefnId="0" NodeId="12" TreeName="Simple City Assault v2" DefaultData="true" />
+		<!--
+		<Row DataName="Range to goal" DefnId="0" DataType="int" NodeType="Operation Move Army" UserData="True" />
+    <Row DataName="Bias to army" DefnId="1" DataType="bool" NodeType="Operation Move Army" Required="False" UserData="True" />
+    <Row DataName="Use Rally Point" DefnId="2" DataType="bool" NodeType="Operation Move Army" Required="False" UserData="True" />
+    <Row DataName="Leader Class" DefnId="3" DataType="string" NodeType="Operation Move Army" Required="False" UserData="True" />
+    <Row DataName="Non-Moving Turn Limit" DefnId="4" DataType="int" NodeType="Operation Move Army" Required="False" UserData="True" />
+    <Row DataName="Require In City" DefnId="5" DataType="bool" NodeType="Operation Move Army" Required="False" UserData="True" />
+		-->
+		<Row DefnId="0" NodeId="13" TreeName="Simple City Assault v2" DefaultData="2" />
+		<Row DefnId="1" NodeId="13" TreeName="Simple City Assault v2" DefaultData="false" />
+		<Row DefnId="2" NodeId="13" TreeName="Simple City Assault v2" DefaultData="true" />
+		<!-- 
+		 <Row DataName="Diplomatic Operation" DefnId="0" DataType="string" NodeType="Use Diplomatic Token" UserData="True" />
+    <Row DataName="Diplomatic Unit" DefnId="1" DataType="ID List" NodeType="Use Diplomatic Token" Output="True" />
+    <Row DataName="Diplomatic Action" DefnId="2" DataType="string" NodeType="Use Diplomatic Token" UserData="True" />
+		-->
+		<Row DefnId="0" NodeId="16" TreeName="Simple City Assault v2" DefaultData="COOPERATIVE_YIELDS_DIPLOMATIC_ACTION" />
+		<Row DefnId="1" NodeId="16" TreeName="Simple City Assault v2" Tag="Unused" />
+		<Row DefnId="2" NodeId="16" TreeName="Simple City Assault v2" DefaultData="DIPLOMACY_ACTION_DENOUNCE" />
+		<!-- Recruit Units -->
+		<!--
+			<Row DataName="Operation In Progress" DefnId="0" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Range" DefnId="1" DataType="int" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Create Units" DefnId="2" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Time Limit" DefnId="3" DataType="int" NodeType="Operation Recruit Units" UserData="True" />
+    		<Row DataName="Allow Stealing" DefnId="4" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+		-->
+		<Row DefnId="0" NodeId="19" TreeName="Simple City Assault v2" DefaultData="true" />
+		<Row DefnId="1" NodeId="19" TreeName="Simple City Assault v2" DefaultData="10" />
+		<Row DefnId="2" NodeId="19" TreeName="Simple City Assault v2" DefaultData="false" />
+		<Row DefnId="3" NodeId="19" TreeName="Simple City Assault v2" DefaultData="-1" />
+		<Row DefnId="4" NodeId="19" TreeName="Simple City Assault v2" DefaultData="false" />
+		<!-- 
+		<Row DataName="Excess Force For Backup" DefnId="0" DataType="int" NodeType="Check Backup Target" Required="False" UserData="True" />
+    	<Row DataName="Excess Force For Failure" DefnId="1" DataType="int" NodeType="Check Backup Target" Required="False" UserData="True" />
+		-->
+		<Row DefnId="0" NodeId="21" TreeName="Simple City Assault v2" DefaultData="1" />
+		<Row DefnId="1" NodeId="21" TreeName="Simple City Assault v2" DefaultData="0" />
+		<Row DefnId="0" NodeId="27" TreeName="Simple City Assault v2" DefaultData="false" />
+		<Row DefnId="1" NodeId="27" TreeName="Simple City Assault v2" DefaultData="false" />
+		<!-- 
+		<Row DataName="No Commander" DefnId="0" DataType="bool" NodeType="Operation Form Army" Required="False" UserData="True" />
+    <Row DataName="Commander Class" DefnId="1" DataType="string" NodeType="Operation Form Army" Required="False" UserData="True" />
+    <Row DataName="Unit Class" DefnId="2" DataType="string" NodeType="Operation Form Army" Required="False" UserData="True" />
+		-->
+		<Row DefnId="0" NodeId="29" TreeName="Simple City Assault v2" DefaultData="true" />
+		<Row DefnId="0" NodeId="30" TreeName="Simple City Assault v2" DefaultData="true" />
+		<Row DefnId="0" NodeId="31" TreeName="Simple City Assault v2" DefaultData="3" />
+		<Row DefnId="1" NodeId="32" TreeName="Simple City Assault v2" Tag="AIR_SUPPORT_LOC" />
+		<!-- 
+		<Row DataName="Turn Count" DefnId="0" DataType="int" NodeType="Wait Turns" UserData="True" />
+		-->
+		<Row DefnId="0" NodeId="35" TreeName="Simple City Assault v2" DefaultData="1" />
+		<!--
+		<Row DataName="Surprise War Limit" DefnId="0" DataType="int" NodeType="Operation Declare War" Required="False" UserData="True" />
+		-->
+		<Row DefnId="0" NodeId="36" TreeName="Simple City Assault v2" DefaultData="50" />
+		<Row DefnId="0" NodeId="39" TreeName="Simple City Assault v2" DefaultData="true" />
+		<Row DefnId="1" NodeId="39" TreeName="Simple City Assault v2" DefaultData="false" />
+		<Row DefnId="0" NodeId="40" TreeName="Simple City Assault v2" DefaultData="true" />
+		<Row DefnId="0" NodeId="45" TreeName="Simple City Assault v2" DefaultData="true" />
+		<Row DefnId="1" NodeId="45" TreeName="Simple City Assault v2" Tag="AIR_SUPPORT_LOC" />
+		<Row DefnId="1" NodeId="46" TreeName="Simple City Assault v2" Tag="AIR_SUPPORT_LOC" />
+		<Row DefnId="0" NodeId="47" TreeName="Simple City Assault v2" DefaultData="true" />
+		<Row DefnId="1" NodeId="47" TreeName="Simple City Assault v2" DefaultData="true" />
+		<Row DefnId="0" NodeId="49" TreeName="Simple City Assault v2" DefaultData="true" />
+		<!-- 
+		 <Row DataName="Range to goal" DefnId="0" DataType="int" NodeType="Operation Move Army" UserData="True" />
+    <Row DataName="Bias to army" DefnId="1" DataType="bool" NodeType="Operation Move Army" Required="False" UserData="True" />
+    <Row DataName="Use Rally Point" DefnId="2" DataType="bool" NodeType="Operation Move Army" Required="False" UserData="True" />
+    <Row DataName="Leader Class" DefnId="3" DataType="string" NodeType="Operation Move Army" Required="False" UserData="True" />
+    <Row DataName="Non-Moving Turn Limit" DefnId="4" DataType="int" NodeType="Operation Move Army" Required="False" UserData="True" />
+    <Row DataName="Require In City" DefnId="5" DataType="bool" NodeType="Operation Move Army" Required="False" UserData="True" />
+		-->
+		<Row DefnId="0" NodeId="52" TreeName="Simple City Assault v2" DefaultData="1" />
+
+		<!-- Minor Power Assault -->
+		<Row DefnId="0" NodeId="1" TreeName="Minor Power Assault v2" />
+		<Row DefnId="1" NodeId="1" TreeName="Minor Power Assault v2" />
+		<Row DefnId="2" NodeId="1" TreeName="Minor Power Assault v2" />
+		<Row DefnId="3" NodeId="1" TreeName="Minor Power Assault v2" Tag="MINOR_LOCATION" />
+		<Row DefnId="4" NodeId="1" TreeName="Minor Power Assault v2" />
+		<Row DefnId="5" NodeId="1" TreeName="Minor Power Assault v2" />
+		<Row DefnId="0" NodeId="4" TreeName="Minor Power Assault v2" Tag="MINOR_LOCATION" />
+		<Row DefnId="1" NodeId="4" TreeName="Minor Power Assault v2" DefaultData="false" />
+		<Row DefnId="3" NodeId="4" TreeName="Minor Power Assault v2" DefaultData="false" />
+		<Row DefnId="0" NodeId="5" TreeName="Minor Power Assault v2" DefaultData="DIPLOMACY_ACTION_GIVE_INFLUENCE_TOKEN" />
+		<Row DefnId="0" NodeId="6" TreeName="Minor Power Assault v2" DefaultData="GIVE_INFLUENCE_TOKEN" />
+		<Row DefnId="1" NodeId="6" TreeName="Minor Power Assault v2" Tag="DIPLO_UNIT" />
+		<Row DefnId="2" NodeId="6" TreeName="Minor Power Assault v2" DefaultData="DIPLOMACY_ACTION_GIVE_INFLUENCE_TOKEN" />
+		<Row DefnId="0" NodeId="8" TreeName="Minor Power Assault v2" Tag="MINOR_LOCATION" />
+		<Row DefnId="1" NodeId="8" TreeName="Minor Power Assault v2" DefaultData="true" />
+		<Row DefnId="2" NodeId="8" TreeName="Minor Power Assault v2" DefaultData="true" />
+		<Row DefnId="3" NodeId="8" TreeName="Minor Power Assault v2" DefaultData="true" />
+		<Row DefnId="0" NodeId="11" TreeName="Minor Power Assault v2" DefaultData="false" />
+		<Row DefnId="3" NodeId="11" TreeName="Minor Power Assault v2" DefaultData="-1" />
+		<Row DefnId="0" NodeId="13" TreeName="Minor Power Assault v2" DefaultData="true" />
+		<Row DefnId="0" NodeId="14" TreeName="Minor Power Assault v2" DefaultData="true" />
+		<Row DefnId="0" NodeId="19" TreeName="Minor Power Assault v2" DefaultData="true" />
+		<Row DefnId="0" NodeId="20" TreeName="Minor Power Assault v2" DefaultData="false" />
+		<Row DefnId="1" NodeId="20" TreeName="Minor Power Assault v2" DefaultData="false" />
+		<Row DefnId="0" NodeId="23" TreeName="Minor Power Assault v2" DefaultData="3" />
+		<Row DefnId="0" NodeId="25" TreeName="Minor Power Assault v2" DefaultData="true" />
+		<Row DefnId="3" NodeId="25" TreeName="Minor Power Assault v2" DefaultData="-1" />
+		<Row DefnId="0" NodeId="28" TreeName="Minor Power Assault v2" Tag="MINOR_LOCATION" />
+		<Row DefnId="1" NodeId="29" TreeName="Minor Power Assault v2" DefaultData="true" />
+		<Row DefnId="0" NodeId="30" TreeName="Minor Power Assault v2" DefaultData="0" />
+	</TreeData>
 </Database>

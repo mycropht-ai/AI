@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Mod id="notque-ai" version="1.06"
+<Mod id="notque-ai" version="1.08"
 	xmlns="ModInfo">
 	<Properties>
-		<Name>Artificially Intelligent 1.06</Name>
+		<Name>Artificially Intelligent 1.08</Name>
 		<Description>A mod that enhances AI behavior and decision making.</Description>
-		<Authors>notque</Authors>
+		<Authors>notque, RomanHoliday, slothoth</Authors>
 		<Package>Mod</Package>
 		<AffectsSavedGames>1</AffectsSavedGames>
 		<ShowInBrowser>1</ShowInBrowser>
@@ -21,13 +21,22 @@
 		</Criteria>
 	</ActionCriteria>
 	<ActionGroups>
-		<ActionGroup id="notque-ai-base" scope="game" criteria="always">
+		<ActionGroup id="notque-ai-base-xml" scope="game" criteria="always">
 			<Properties>
 				<LoadOrder>100</LoadOrder>
 			</Properties>
 			<Actions>
 				<UpdateDatabase>
 					<Item>modules/data/ai_trees.xml</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="notque-ai-base-sql" scope="game" criteria="always">
+			<Properties>
+				<LoadOrder>101</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
 					<Item>modules/data/art_intelligence_core.sql</Item>
 				</UpdateDatabase>
 			</Actions>

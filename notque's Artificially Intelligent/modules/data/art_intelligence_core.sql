@@ -1,17 +1,20 @@
 -- Artificiallyintelligent Core
 
-
 -- AI Operation Definitions
 UPDATE AiOperationDefs
 SET BehaviorTree = 'Settle New Town v2', MaxTargetDefense = 0, Priority = 4
 WHERE OperationName = 'City Founding';
 
 UPDATE AiOperationDefs
-SET MustHaveUnits = 6, MinOddsOfSuccess = 0.35, Priority = 4
+SET BehaviorTree = 'Simple City Assault v2', MustHaveUnits = 5, MinOddsOfSuccess = .15, Priority = 3
 WHERE OperationName = 'Attack Enemy City';
 
+-- I am essentially turning this off because
+-- once the indepdent is suzerain, the targetting gets stuck.
+-- If I can fix the targetting, I can turn this back on.
+--trying a weird fix...
 UPDATE AiOperationDefs
-SET MustHaveUnits = 6, MinOddsOfSuccess = 0.35, Priority = 4
+SET MaxTargetDistInArea = 0, MaxTargetDistInRegion = 1, MustHaveUnits = 1, MinOddsOfSuccess = 1, Priority = 1
 WHERE OperationName = 'Attack Enemy Independent';
 
 -- AI Operation Teams
@@ -20,16 +23,16 @@ SET SafeRallyPoint = 0
 WHERE OperationName = 'City Founding';
 
 UPDATE AIOperationTeams
-SET OngoingStrengthAdvantage = 2
+SET OngoingStrengthAdvantage = 1
 WHERE OperationName = 'Attack Enemy City';
 
 UPDATE AIOperationTeams
 SET InitialStrengthAdvantage = 1, OngoingStrengthAdvantage = 2
 WHERE OperationName = 'Independent Camp Attack';
 
--- Lowered Initial Strength Advantage to -1 to always defend cities. .5 for ongoing
+-- Lowered Initial Strength Advantage to -1 to always defend cities.
 UPDATE AIOperationTeams
-SET InitialStrengthAdvantage = -1, OngoingStrengthAdvantage = 0.5
+SET InitialStrengthAdvantage = -1, OngoingStrengthAdvantage = .5
 WHERE OperationName = 'City Defense';
 
 -- AI Lists
@@ -47,7 +50,7 @@ SET Value = 2
 WHERE ListType = 'BaseOperationsLimits' AND Item = 'CITY_FOUNDING';
 
 UPDATE AiFavoredItems
-SET Value = 2
+SET Value = 1
 WHERE ListType = 'BaseOperationsLimits' AND Item = 'CITY_ASSAULT';
 
 UPDATE AiFavoredItems
@@ -55,11 +58,11 @@ SET Value = 50
 WHERE ListType = 'LegacyPathStrategyExpansionPseudoYieldBiases' AND Item = 'PSEUDOYIELD_NEW_CITY';
 
 UPDATE AiFavoredItems
-SET Value = -5
+SET Value = 50
 WHERE ListType = 'LegacyPathStrategyWondersPseudoYieldBiases' AND Item = 'PSEUDOYIELD_NEW_CITY';
 
 UPDATE AiFavoredItems
-SET Value = -10
+SET Value = 50
 WHERE ListType = 'LegacyPathStrategyImportsPseudoYieldBiases' AND Item = 'PSEUDOYIELD_NEW_CITY';
 
 -- Stop the AI from spamming explorers
@@ -73,14 +76,120 @@ WHERE ListType = 'LegacyPathArtifactsUnitBiases' AND Item = 'UNIT_EXPLORER';
 
 -- Insert custom pseudo yield biases
 INSERT INTO AiFavoredItems (ListType, Item, Value)
-VALUES ('Major PsuedoYield Biases', 'PSEUDOYIELD_CITY_GUARDS', -50),
-       ('Major PsuedoYield Biases', 'PSEUDOYIELD_CITY_DEFENSES', -50),
+VALUES ('Major PsuedoYield Biases', 'PSEUDOYIELD_CITY_GUARDS', 150), -- Default 25
+       ('Major PsuedoYield Biases', 'PSEUDOYIELD_CITY_DEFENSES', 50), -- Default 25
        ('Major PsuedoYield Biases', 'PSEUDOYIELD_TOWN_TO_CITY_UPGRADE_PER_POPULATION', 500),
-       ('Major PsuedoYield Biases', 'PSEUDOYIELD_CITY_GARRISON_COMBAT_VALUE', 20),
+       ('Major PsuedoYield Biases', 'PSEUDOYIELD_CITY_GARRISON_COMBAT_VALUE', 12), -- default 5
        ('Major PsuedoYield Biases', 'PSEUDOYIELD_STANDING_ARMY_COMMANDER', 100),
-       ('Major PsuedoYield Biases', 'PSEUDOYIELD_NEW_CITY', 250);
+       ('Major PsuedoYield Biases', 'PSEUDOYIELD_NEW_CITY', 750);
 
--- Insert natural wonder plot evaluations
+UPDATE AiFavoredItems SET Value = 1000 WHERE ListType = 'Default Settlement Plot Evaluations' AND Favored = 'false' AND TooltipString = 'LOC_SETTLEMENT_RECOMMENDATION_NEAREST_CITY' AND Item = 'Nearest Friendly City'; -- def -2
+
+-- Shut off the desire for resource diversity, I think it might be
+-- a major cause of forward settling, and I'm not sure it actually matters in game
+-- I have found it does matter in the game. but i think city wise, not empire wise. 
+UPDATE AiFavoredItems SET Value = 1 WHERE ListType = 'Default Settlement Plot Evaluations' AND TooltipString = 'LOC_SETTLEMENT_RECOMMENDATION_NEW_RESOURCES' AND Item = 'Resource Class' AND StringVal ='RESOURCECLASS_BONUS'; 
+
+    -- Tactical priorities
+    UPDATE AiFavoredItems
+    SET Value = 6
+    WHERE ListType = 'Default Tactical' AND Item = 'First Turn Settle';
+
+    UPDATE AiFavoredItems
+    SET Value = 5
+    WHERE ListType = 'Default Tactical' AND Item IN ('Air Assault', 'Air Rebase', 'Use WMD', 'Heal');
+
+
+    -- Insert 'Capture City' at some point to try
+    UPDATE AiFavoredItems
+    SET Value = 4
+    WHERE ListType = 'Default Tactical' AND Item IN ('Take Razing City', 'Attack High Priority Unit', 'Upgrade Units');
+
+    UPDATE AiFavoredItems
+    SET Value = 3
+    WHERE ListType = 'Default Tactical' AND Item IN ('Attack Medium Priority Unit', 'Attack Low Priority Unit');
+
+    UPDATE AiFavoredItems
+    SET Value = 2
+    WHERE ListType = 'Default Tactical' AND Item IN ('Form Army', 'Plunder Trade Route');
+
+    UPDATE AiFavoredItems
+    SET Value = 1
+    WHERE ListType = 'Default Tactical' AND Item IN ('Use Great Person', 'Explore', 'Block Enemy Expansion', 'Army Overrun', 'Defend Home', 'Escort Embarked', 'Wander near city');
+
+    UPDATE AiFavoredItems
+    SET Value = 0
+    WHERE ListType = 'Default Tactical' AND Item = 'Wander';
+
+-- AI Operation Team Requirements
+UPDATE OpTeamRequirements
+SET MinNumber = 2, MaxNumber = 6
+WHERE TeamName = 'Enemy City Attack' AND ClassTag = 'UNIT_CLASS_MELEE';
+
+UPDATE OpTeamRequirements
+SET MinNumber = 3, MaxNumber = 12
+WHERE TeamName = 'Enemy City Attack' AND ClassTag = 'UNIT_CLASS_RANGED';
+
+INSERT INTO OpTeamRequirements (TeamName, ClassTag, Property, MaxNumber)
+VALUES ('Enemy City Attack', 'UNIT_CLASS_CREATE_TOWN', 'LandClaimCharges', 0);
+
+INSERT INTO OpTeamRequirements (TeamName, ClassTag, MaxNumber)
+VALUES ('Enemy City Attack', 'UNIT_CLASS_NON_COMBAT', 0);
+
+-- Trying reconsider while preparing.
+
+--UPDATE OpTeamRequirements
+--SET ReconsiderWhilePreparing = true
+--WHERE TeamName = 'Enemy City Attack';
+
+-- Independent Camp Attack
+UPDATE OpTeamRequirements
+SET MinNumber = 2, MaxNumber = 6
+WHERE TeamName = 'Independent Camp Attack' AND ClassTag = 'UNIT_CLASS_MELEE';
+
+UPDATE OpTeamRequirements
+SET MinNumber = 3, MaxNumber = 12
+WHERE TeamName = 'Independent Camp Attack' AND ClassTag = 'UNIT_CLASS_RANGED';
+
+INSERT INTO OpTeamRequirements (TeamName, ClassTag, Property, MaxNumber)
+VALUES ('Independent Camp Attack', 'UNIT_CLASS_CREATE_TOWN', 'LandClaimCharges', 0);
+
+INSERT INTO OpTeamRequirements (TeamName, ClassTag, MaxNumber)
+VALUES ('Independent Camp Attack', 'UNIT_CLASS_NON_COMBAT', 0);
+
+-- Trying reconsider while preparing.
+
+--UPDATE OpTeamRequirements
+--SET ReconsiderWhilePreparing = true
+--WHERE TeamName = 'Independent Camp Attack';
+
+-- City Defense
+INSERT INTO OpTeamRequirements (TeamName, ClassTag, Property, MaxNumber)
+VALUES ('City Defense', 'UNIT_CLASS_CREATE_TOWN', 'LandClaimCharges', 0);
+
+-- Already Set to 0, this is for documentation to know why it's not set.
+-- INSERT INTO OpTeamRequirements (TeamName, ClassTag, MaxNumber)
+-- VALUES ('City Defense', 'UNIT_CLASS_NON_COMBAT', 0);
+
+UPDATE OpTeamRequirements
+SET MinNumber = 2 -- MaxNumber = 8
+WHERE TeamName = 'City Defense' AND ClassTag = 'UNIT_CLASS_COMBAT';
+
+INSERT INTO OpTeamRequirements (TeamName, ClassTag, MinNumber, MaxNumber)
+VALUES ('City Defense', 'UNIT_CLASS_MELEE', 1, 4),
+       ('City Defense', 'UNIT_CLASS_RANGED', 1, 6),
+       ('City Defense', 'UNIT_CLASS_SIEGE', 0, 2);
+
+-- City Founders
+UPDATE OpTeamRequirements
+SET MinNumber = 0, MaxNumber = 1
+WHERE TeamName = 'City Founders' AND ClassTag = 'UNIT_CLASS_COMBAT';
+
+UPDATE OpTeamRequirements
+SET MaxNumber = 1
+WHERE TeamName = 'City Founders' AND ClassTag = 'UNIT_CLASS_ARMY_COMMANDER';
+
+-- Natural Wonder plot evaluations
 INSERT INTO AiFavoredItems (ListType, Item, Value, StringVal, TooltipString)
 VALUES 
     ('Default Settlement Plot Evaluations', 'Specific Feature', 2, 'FEATURE_VALLEY_OF_FLOWERS', 'LOC_SETTLEMENT_RECOMMENDATION_FEATURES'),
@@ -95,100 +204,7 @@ VALUES
     ('Default Settlement Plot Evaluations', 'Specific Feature', 2, 'FEATURE_THERA', 'LOC_SETTLEMENT_RECOMMENDATION_FEATURES'),
     ('Default Settlement Plot Evaluations', 'Specific Feature', 2, 'FEATURE_TORRES_DEL_PAINE', 'LOC_SETTLEMENT_RECOMMENDATION_FEATURES'),
     ('Default Settlement Plot Evaluations', 'Specific Feature', 2, 'FEATURE_ULURU', 'LOC_SETTLEMENT_RECOMMENDATION_FEATURES');
-
--- Tactical priorities
-UPDATE AiFavoredItems
-SET Value = 10
-WHERE ListType = 'Default Tactical' AND Item = 'First Turn Settle';
-
-UPDATE AiFavoredItems
-SET Value = 9
-WHERE ListType = 'Default Tactical' AND Item IN ('Air Assault', 'Air Rebase', 'Use WMD', 'Army Overrun');
-
-UPDATE AiFavoredItems
-SET Value = 8
-WHERE ListType = 'Default Tactical' AND Item IN ('Heal', 'Upgrade Units');
-
-UPDATE AiFavoredItems
-SET Value = 7
-WHERE ListType = 'Default Tactical' AND Item IN ('Take Razing City', 'Attack High Priority Unit');
-
-UPDATE AiFavoredItems
-SET Value = 6
-WHERE ListType = 'Default Tactical' AND Item = 'Attack Medium Priority Unit';
-
-UPDATE AiFavoredItems
-SET Value = 5
-WHERE ListType = 'Default Tactical' AND Item IN ('Form Army', 'Use Great Person', 'Explore');
-
-UPDATE AiFavoredItems
-SET Value = 4
-WHERE ListType = 'Default Tactical' AND Item IN ('Plunder Trade Route', 'Block Enemy Expansion');
-
-UPDATE AiFavoredItems
-SET Value = 3
-WHERE ListType = 'Default Tactical' AND Item IN ('Escort Embarked', 'Defend Home');
-
-UPDATE AiFavoredItems
-SET Value = 2
-WHERE ListType = 'Default Tactical' AND Item = 'Attack Low Priority Unit';
-
-UPDATE AiFavoredItems
-SET Value = 1
-WHERE ListType = 'Default Tactical' AND Item = 'Wander near city';
-
-UPDATE AiFavoredItems
-SET Value = 0
-WHERE ListType = 'Default Tactical' AND Item = 'Wander';
-
--- Op Team Requirements
--- Enemy City Attack
-UPDATE OpTeamRequirements
-SET MinNumber = 2, MaxNumber = 6
-WHERE TeamName = 'Enemy City Attack' AND ClassTag = 'UNIT_CLASS_MELEE';
-
-UPDATE OpTeamRequirements
-SET MinNumber = 3, MaxNumber = 12
-WHERE TeamName = 'Enemy City Attack' AND ClassTag = 'UNIT_CLASS_RANGED';
-
-INSERT INTO OpTeamRequirements (TeamName, ClassTag, Property, MaxNumber)
-VALUES ('Enemy City Attack', 'UNIT_CLASS_CREATE_TOWN', 'LandClaimCharges', 0);
-
--- Independent Camp Attack
-UPDATE OpTeamRequirements
-SET MinNumber = 2, MaxNumber = 6
-WHERE TeamName = 'Independent Camp Attack' AND ClassTag = 'UNIT_CLASS_MELEE';
-
-UPDATE OpTeamRequirements
-SET MinNumber = 3, MaxNumber = 12
-WHERE TeamName = 'Independent Camp Attack' AND ClassTag = 'UNIT_CLASS_RANGED';
-
-INSERT INTO OpTeamRequirements (TeamName, ClassTag, Property, MaxNumber)
-VALUES ('Independent Camp Attack', 'UNIT_CLASS_CREATE_TOWN', 'LandClaimCharges', 0);
-
--- City Defense
-INSERT INTO OpTeamRequirements (TeamName, ClassTag, Property, MaxNumber)
-VALUES ('City Defense', 'UNIT_CLASS_CREATE_TOWN', 'LandClaimCharges', 0);
-
-UPDATE OpTeamRequirements
-SET MinNumber = 2, MaxNumber = 8
-WHERE TeamName = 'City Defense' AND ClassTag = 'UNIT_CLASS_COMBAT';
-
-INSERT INTO OpTeamRequirements (TeamName, ClassTag, MinNumber, MaxNumber)
-VALUES ('City Defense', 'UNIT_CLASS_MELEE', 1, 4),
-       ('City Defense', 'UNIT_CLASS_RANGED', 1, 6),
-       ('City Defense', 'UNIT_CLASS_SIEGE', 0, 2);
-
--- City Founders
-UPDATE OpTeamRequirements
-SET MinNumber = 0, MaxNumber = 4
-WHERE TeamName = 'City Founders' AND ClassTag = 'UNIT_CLASS_COMBAT';
-
-UPDATE OpTeamRequirements
-SET MaxNumber = 1
-WHERE TeamName = 'City Founders' AND ClassTag = 'UNIT_CLASS_ARMY_COMMANDER';
-
-
+    
 UPDATE AiFavoredItems 
 SET Value = 2
 WHERE Value > 2 
@@ -205,12 +221,10 @@ Where ListType = 'Default Settlement Plot Evaluations' and Item = 'Fresh Water';
 
 -- Increase science bias for Legacy Path Science
 UPDATE AiFavoredItems
-SET Value = 30 -- Def 10
+SET Value = 15 -- Def 10
 WHERE ListType = 'LegacyPathStrategyScienceYieldBiases' AND Item = 'Yield_SCIENCE';
 
 -- Increase production bias for Legacy Path Expansion
 UPDATE AiFavoredItems
-SET Value = 20
+SET Value = 15
 WHERE ListType = 'LegacyPathStrategyExpansionYieldBiases' AND Item = 'YIELD_PRODUCTION';
-
---    <Row ListType="Chola Settlement Plot Evaluations" Item="Specific Terrain" Value="25" StringVal="TERRAIN_COAST" TooltipString="LOC_SETTLEMENT_RECOMMENDATION_TERRAIN"/>
