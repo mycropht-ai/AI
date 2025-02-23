@@ -5,34 +5,22 @@ UPDATE AiOperationDefs
 SET BehaviorTree = 'Settle New Town v2', MaxTargetDefense = 0, Priority = 4
 WHERE OperationName = 'City Founding';
 
-UPDATE AiOperationDefs
-SET BehaviorTree = 'Simple City Assault v2', MustHaveUnits = 5, MinOddsOfSuccess = .15, Priority = 3
-WHERE OperationName = 'Attack Enemy City';
-
--- I am essentially turning this off because
--- once the indepdent is suzerain, the targetting gets stuck.
--- If I can fix the targetting, I can turn this back on.
---trying a weird fix...
-UPDATE AiOperationDefs
-SET MaxTargetDistInArea = 0, MaxTargetDistInRegion = 1, MustHaveUnits = 1, MinOddsOfSuccess = 1, Priority = 1
-WHERE OperationName = 'Attack Enemy Independent';
-
 -- AI Operation Teams
 UPDATE AIOperationTeams
-SET SafeRallyPoint = 0
+SET SafeRallyPoint = 1
 WHERE OperationName = 'City Founding';
 
 UPDATE AIOperationTeams
-SET OngoingStrengthAdvantage = 1
+SET InitialStrengthAdvantage = -1, OngoingStrengthAdvantage = 0
 WHERE OperationName = 'Attack Enemy City';
 
 UPDATE AIOperationTeams
-SET InitialStrengthAdvantage = 1, OngoingStrengthAdvantage = 2
+SET InitialStrengthAdvantage = -1, OngoingStrengthAdvantage = 0
 WHERE OperationName = 'Independent Camp Attack';
 
 -- Lowered Initial Strength Advantage to -1 to always defend cities.
 UPDATE AIOperationTeams
-SET InitialStrengthAdvantage = -1, OngoingStrengthAdvantage = .5
+SET InitialStrengthAdvantage = -1, OngoingStrengthAdvantage = 0
 WHERE OperationName = 'City Defense';
 
 -- AI Lists
@@ -84,7 +72,7 @@ VALUES ('Major PsuedoYield Biases', 'PSEUDOYIELD_CITY_GUARDS', 150), -- Default 
        ('Major PsuedoYield Biases', 'PSEUDOYIELD_NEW_CITY', 750);
 
 UPDATE AiFavoredItems SET Value = 1000 WHERE ListType = 'Default Settlement Plot Evaluations' AND Favored = 'false' AND TooltipString = 'LOC_SETTLEMENT_RECOMMENDATION_NEAREST_CITY' AND Item = 'Nearest Friendly City'; -- def -2
-
+UPDATE AiFavoredItems SET Value = 1000 WHERE ListType = 'Default Settlement Plot Evaluations' AND Favored = 'true' AND TooltipString = 'LOC_SETTLEMENT_RECOMMENDATION_NEAREST_CITY' AND Item = 'Nearest Friendly City'; -- def -2
 -- Shut off the desire for resource diversity, I think it might be
 -- a major cause of forward settling, and I'm not sure it actually matters in game
 -- I have found it does matter in the game. but i think city wise, not empire wise. 
@@ -97,13 +85,13 @@ UPDATE AiFavoredItems SET Value = 1 WHERE ListType = 'Default Settlement Plot Ev
 
     UPDATE AiFavoredItems
     SET Value = 5
-    WHERE ListType = 'Default Tactical' AND Item IN ('Air Assault', 'Air Rebase', 'Use WMD', 'Heal');
+    WHERE ListType = 'Default Tactical' AND Item IN ('Air Assault', 'Air Rebase', 'Use WMD', 'Take Razing City', 'Heal');
 
 
     -- Insert 'Capture City' at some point to try
     UPDATE AiFavoredItems
     SET Value = 4
-    WHERE ListType = 'Default Tactical' AND Item IN ('Take Razing City', 'Attack High Priority Unit', 'Upgrade Units');
+    WHERE ListType = 'Default Tactical' AND Item IN ('Attack High Priority Unit', 'Upgrade Units');
 
     UPDATE AiFavoredItems
     SET Value = 3
@@ -144,11 +132,11 @@ VALUES ('Enemy City Attack', 'UNIT_CLASS_NON_COMBAT', 0);
 
 -- Independent Camp Attack
 UPDATE OpTeamRequirements
-SET MinNumber = 2, MaxNumber = 6
+SET MinNumber = 1, MaxNumber = 6
 WHERE TeamName = 'Independent Camp Attack' AND ClassTag = 'UNIT_CLASS_MELEE';
 
 UPDATE OpTeamRequirements
-SET MinNumber = 3, MaxNumber = 12
+SET MinNumber = 2, MaxNumber = 12
 WHERE TeamName = 'Independent Camp Attack' AND ClassTag = 'UNIT_CLASS_RANGED';
 
 INSERT INTO OpTeamRequirements (TeamName, ClassTag, Property, MaxNumber)
@@ -186,7 +174,7 @@ SET MinNumber = 0, MaxNumber = 1
 WHERE TeamName = 'City Founders' AND ClassTag = 'UNIT_CLASS_COMBAT';
 
 UPDATE OpTeamRequirements
-SET MaxNumber = 1
+SET MaxNumber = 0
 WHERE TeamName = 'City Founders' AND ClassTag = 'UNIT_CLASS_ARMY_COMMANDER';
 
 -- Natural Wonder plot evaluations
@@ -228,3 +216,11 @@ WHERE ListType = 'LegacyPathStrategyScienceYieldBiases' AND Item = 'Yield_SCIENC
 UPDATE AiFavoredItems
 SET Value = 15
 WHERE ListType = 'LegacyPathStrategyExpansionYieldBiases' AND Item = 'YIELD_PRODUCTION';
+
+UPDATE AiFavoredItems 
+SET Value = 1000 
+WHERE ListType = 'Default Settlement Plot Evaluations' AND Favored = 'false' AND TooltipString = 'LOC_SETTLEMENT_RECOMMENDATION_NEAREST_CITY' AND Item = 'Nearest Friendly City'; 
+
+UPDATE AiFavoredItems 
+SET Value = 1000
+WHERE ListType = 'Default Settlement Plot Evaluations' AND Favored = 'true' AND TooltipString = 'LOC_SETTLEMENT_RECOMMENDATION_NEAREST_CITY' AND Item = 'Nearest Friendly City'; 
