@@ -6,7 +6,7 @@
 		<Description>A mod that enhances AI behavior and decision making.</Description>
 		<Authors>notque</Authors>
 		<Package>Mod</Package>
-		<AffectsSavedGames>0</AffectsSavedGames>
+		<AffectsSavedGames>1</AffectsSavedGames>
 		<ShowInBrowser>1</ShowInBrowser>
 	</Properties>
 	<Dependencies>
