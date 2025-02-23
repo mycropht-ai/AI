@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+    <BehaviorTrees>
+        <Row TreeName="Settle New Town v2" />
+    </BehaviorTrees>
+    <BehaviorTreeNodes>
+        <Row TreeName="Settle New Town v2" NodeId="0" NodeType="Sequence" JumpTo="34" />
+        <Row TreeName="Settle New Town v2" NodeId="1" NodeType="Concurrent" JumpTo="27" />
+        <Row TreeName="Settle New Town v2" NodeId="2" NodeType="Decode Input" />
+		<!-- 
+		    <Row DataName="SelectedLocation" DefnId="0" DataType="Map Point" NodeType="CheckSettleLocationValid" />
+    		<Row DataName="AllowBackup" DefnId="1" DataType="bool" NodeType="CheckSettleLocationValid" Required="False" UserData="True" />
+		-->
+        <Row TreeName="Settle New Town v2" NodeId="3" NodeType="CheckSettleLocationValid" />
+        <Row TreeName="Settle New Town v2" NodeId="4" NodeType="Sequence" JumpTo="27" />
+        <Row TreeName="Settle New Town v2" NodeId="5" NodeType="Concurrent" JumpTo="8" />
+		<!--
+			<Row DataName="Specific Progression Node" DefnId="0" DataType="string" NodeType="Research Progression Node" RequiredGroup="True" UserData="True" />
+    		<Row DataName="Unit Class" DefnId="1" DataType="string" NodeType="Research Progression Node" RequiredGroup="True" UserData="True" />
+    		<Row DataName="Time Limit" DefnId="2" DataType="int" NodeType="Research Progression Node" UserData="True" />
+	    -->
+        <Row TreeName="Settle New Town v2" NodeId="6" NodeType="Research Progression Node" />
+        <!--
+			<Row DataName="Operation In Progress" DefnId="0" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Range" DefnId="1" DataType="int" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Create Units" DefnId="2" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Time Limit" DefnId="3" DataType="int" NodeType="Operation Recruit Units" UserData="True" />
+    		<Row DataName="Allow Stealing" DefnId="4" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+		-->
+		<Row TreeName="Settle New Town v2" NodeId="7" NodeType="Operation Recruit Units" />
+        <Row TreeName="Settle New Town v2" NodeId="8" NodeType="Operation Recruit Units" />
+		<!-- Build Unit-Linked Constructible -->
+		<!-- Special logical And node. Stops on FAILURE, but also stops on RUNNING. Resumes next turn on RUNNING node.-->
+        <Row TreeName="Settle New Town v2" NodeId="9" NodeType="Sequence" JumpTo="27" />
+		<!-- Logical Or node. Runs all children until it reaches a SUCCESS or RUNNING -->
+        <Row TreeName="Settle New Town v2" NodeId="10" NodeType="Priority" JumpTo="16" />
+        <!-- Removed nodes 11-15 (naval escort logic) -->
+        <Row TreeName="Settle New Town v2" NodeId="16" NodeType="Concurrent" JumpTo="27" />
+		<!-- 
+		    <Row DataName="SelectedLocation" DefnId="0" DataType="Map Point" NodeType="CheckSettleLocationValid" />
+    		<Row DataName="AllowBackup" DefnId="1" DataType="bool" NodeType="CheckSettleLocationValid" Required="False" UserData="True" />
+		-->
+        <Row TreeName="Settle New Town v2" NodeId="17" NodeType="CheckSettleLocationValid" />
+        <!-- Move units towards the commander and form an army -->
+		<Row TreeName="Settle New Town v2" NodeId="18" NodeType="Operation Form Army" />
+        <Row TreeName="Settle New Town v2" NodeId="19" NodeType="Operation Recruit Units" />
+		<!-- Logical Or node. Runs all children until it reaches a SUCCESS or RUNNING -->
+        <Row TreeName="Settle New Town v2" NodeId="20" NodeType="Priority" JumpTo="24" />
+		<!-- Success or running becomes failure. Failure goes to success -->
+        <Row TreeName="Settle New Town v2" NodeId="21" NodeType="Not" JumpTo="23" />
+		<!-- Army must unpack based on an enemy army or sufficient enemy units -->
+        <Row TreeName="Settle New Town v2" NodeId="22" NodeType="Army Must Unpack" />
+        <Row TreeName="Settle New Town v2" NodeId="23" NodeType="Operation Unpack Army" />
+        <Row TreeName="Settle New Town v2" NodeId="24" NodeType="Operation Defend Units" />
+        <Row TreeName="Settle New Town v2" NodeId="25" NodeType="Operation Attack Units" />
+        <Row TreeName="Settle New Town v2" NodeId="26" NodeType="Operation Move Army" />
+        <Row TreeName="Settle New Town v2" NodeId="27" NodeType="Concurrent" JumpTo="34" />
+		<!-- 
+		    <Row DataName="SelectedLocation" DefnId="0" DataType="Map Point" NodeType="CheckSettleLocationValid" />
+    		<Row DataName="AllowBackup" DefnId="1" DataType="bool" NodeType="CheckSettleLocationValid" Required="False" UserData="True" />
+		-->
+        <Row TreeName="Settle New Town v2" NodeId="28" NodeType="CheckSettleLocationValid" />
+        <Row TreeName="Settle New Town v2" NodeId="29" NodeType="Operation Unpack Army" />
+        <Row TreeName="Settle New Town v2" NodeId="30" NodeType="Operation Defend Units" />
+        <Row TreeName="Settle New Town v2" NodeId="31" NodeType="Operation Attack Units" />
+        <Row TreeName="Settle New Town v2" NodeId="32" NodeType="Operation Move Army" />
+		<!-- Settle a Town -->
+        <Row TreeName="Settle New Town v2" NodeId="33" NodeType="DiplomaticActionLandClaim" />
+    </BehaviorTreeNodes>
+
+    <TreeData>
+        <Row DefnId="0" NodeId="2" TreeName="Settle New Town v2" />
+        <Row DefnId="1" NodeId="2" TreeName="Settle New Town v2" />
+        <Row DefnId="2" NodeId="2" TreeName="Settle New Town v2" />
+        <Row DefnId="3" NodeId="2" TreeName="Settle New Town v2" Tag="SettleLocation" />
+        <Row DefnId="4" NodeId="2" TreeName="Settle New Town v2" />
+        <Row DefnId="5" NodeId="2" TreeName="Settle New Town v2" />
+		<!-- 
+		    <Row DataName="SelectedLocation" DefnId="0" DataType="Map Point" NodeType="CheckSettleLocationValid" />
+    		<Row DataName="AllowBackup" DefnId="1" DataType="bool" NodeType="CheckSettleLocationValid" Required="False" UserData="True" />
+		-->
+        <Row DefnId="0" NodeId="3" TreeName="Settle New Town v2" Tag="SettleLocation" />
+		<Row DefnId="1" NodeId="3" TreeName="Settle New Town v2" DefaultData="false" />
+        <Row DefnId="1" NodeId="5" TreeName="Settle New Town v2" DefaultData="true" />
+		<!-- Research Tech for Unit. There is no Tech needed though! -->
+        <Row DefnId="0" NodeId="6" TreeName="Settle New Town v2" />
+        <Row DefnId="1" NodeId="6" TreeName="Settle New Town v2" DefaultData="UNIT_CLASS_CREATE_TOWN" />
+        <!-- Time Limit Default is 10.-->
+		<Row DefnId="2" NodeId="6" TreeName="Settle New Town v2" DefaultData="10" />
+		<!-- Recruit Units -->
+        <Row DefnId="0" NodeId="7" TreeName="Settle New Town v2" DefaultData="false" />
+        <Row DefnId="2" NodeId="7" TreeName="Settle New Town v2" DefaultData="true" />
+        <Row DefnId="3" NodeId="7" TreeName="Settle New Town v2" DefaultData="10" />
+        <Row DefnId="4" NodeId="7" TreeName="Settle New Town v2" DefaultData="true" />
+		<!-- Recruit Units -->
+		<!--
+			<Row DataName="Operation In Progress" DefnId="0" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Range" DefnId="1" DataType="int" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Create Units" DefnId="2" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Time Limit" DefnId="3" DataType="int" NodeType="Operation Recruit Units" UserData="True" />
+    		<Row DataName="Allow Stealing" DefnId="4" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+		-->
+        <Row DefnId="0" NodeId="8" TreeName="Settle New Town v2" DefaultData="false" />
+        <Row DefnId="2" NodeId="8" TreeName="Settle New Town v2" DefaultData="true" />
+        <Row DefnId="3" NodeId="8" TreeName="Settle New Town v2" DefaultData="10" />
+        <Row DefnId="4" NodeId="8" TreeName="Settle New Town v2" DefaultData="true" />
+        <!-- Removed TreeData for nodes 11-15 -->
+		<!-- 
+		    <Row DataName="SelectedLocation" DefnId="0" DataType="Map Point" NodeType="CheckSettleLocationValid" />
+    		<Row DataName="AllowBackup" DefnId="1" DataType="bool" NodeType="CheckSettleLocationValid" Required="False" UserData="True" />
+		-->
+        <Row DefnId="0" NodeId="17" TreeName="Settle New Town v2" Tag="SettleLocation" />
+		<Row DefnId="1" NodeId="17" TreeName="Settle New Town v2" DefaultData="false" />
+		<!-- Operation Form Army
+		<Row DataName="No Commander" DefnId="0" DataType="bool" NodeType="Operation Form Army" Required="False" UserData="True" />
+    	<Row DataName="Commander Class" DefnId="1" DataType="string" NodeType="Operation Form Army" Required="False" UserData="True" />
+    	<Row DataName="Unit Class" DefnId="2" DataType="string" NodeType="Operation Form Army" Required="False" UserData="True" />
+	    -->
+        <Row DefnId="0" NodeId="18" TreeName="Settle New Town v2" DefaultData="true" />
+		<!-- Recruit Units -->
+		<!--
+			<Row DataName="Operation In Progress" DefnId="0" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Range" DefnId="1" DataType="int" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Create Units" DefnId="2" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+    		<Row DataName="Time Limit" DefnId="3" DataType="int" NodeType="Operation Recruit Units" UserData="True" />
+    		<Row DataName="Allow Stealing" DefnId="4" DataType="bool" NodeType="Operation Recruit Units" Required="False" UserData="True" />
+		-->
+        <Row DefnId="0" NodeId="19" TreeName="Settle New Town v2" DefaultData="true" />
+        <Row DefnId="1" NodeId="19" TreeName="Settle New Town v2" DefaultData="-1" />
+		<!-- Time Limit was infinite, Is this for the settler? -->
+        <Row DefnId="3" NodeId="19" TreeName="Settle New Town v2" DefaultData="-1" />
+        <Row DefnId="4" NodeId="19" TreeName="Settle New Town v2" DefaultData="false" />
+        <Row DefnId="0" NodeId="25" TreeName="Settle New Town v2" DefaultData="false" />
+        <Row DefnId="0" NodeId="26" TreeName="Settle New Town v2" DefaultData="0" />
+        <Row DefnId="1" NodeId="26" TreeName="Settle New Town v2" DefaultData="false" />
+        <Row DefnId="3" NodeId="26" TreeName="Settle New Town v2" DefaultData="UNIT_CLASS_CREATE_TOWN" />
+        <!-- Non-Moving Turn Limit
+		Default 5, Changing to 1 -->
+		<Row DefnId="4" NodeId="26" TreeName="Settle New Town v2" DefaultData="1" />
+        <Row DefnId="0" NodeId="28" TreeName="Settle New Town v2" DefaultData="false" />
+        <Row DefnId="0" NodeId="32" TreeName="Settle New Town v2" DefaultData="0" />
+        <Row DefnId="1" NodeId="32" TreeName="Settle New Town v2" DefaultData="false" />
+        <Row DefnId="3" NodeId="32" TreeName="Settle New Town v2" DefaultData="UNIT_CLASS_CREATE_TOWN" />
+        <!-- Non-Moving Turn Limit 
+		Default 5, Changing to 1 -->
+		<Row DefnId="4" NodeId="32" TreeName="Settle New Town v2" DefaultData="1" />
+        <Row DefnId="0" NodeId="33" TreeName="Settle New Town v2" Tag="SettleUnit" />
+        <Row DefnId="1" NodeId="33" TreeName="Settle New Town v2" Tag="SettleLocation" />
+	</TreeData>
+
+	<AiComponents>
+		<!-- Default Low, Higher is only better with the rest of the mod -->
+		<Update>
+			<Where Component="Tactical"/>
+			<Set DefaultPriority="AI_PRIORITY_LOW"/>
+		</Update>
+	</AiComponents>
+</Database>

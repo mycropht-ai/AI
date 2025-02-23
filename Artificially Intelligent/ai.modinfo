@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="art-ai" version="1.01"
+	xmlns="ModInfo">
+	<Properties>
+		<Name>Artificially Intelligent 1.02</Name>
+		<Description>A mod that enhances AI behavior and decision making. By Notque and RomanHoliday!</Description>
+		<Authors>Notque and RomanHoliday</Authors>
+		<Package>Mod</Package>
+		<AffectsSavedGames>0</AffectsSavedGames>
+		<ShowInBrowser>1</ShowInBrowser>
+	</Properties>
+	<Dependencies>
+		<Mod id="base-standard" title="LOC_MODULE_BASE_STANDARD_NAME"/>
+		<Mod id="age-antiquity" title="LOC_MODULE_AGE_ANTIQUITY_NAME"/>
+		<Mod id="age-exploration" title="LOC_MODULE_AGE_EXPLORATION_NAME"/>
+		<Mod id="age-modern" title="LOC_MODULE_AGE_MODERN_NAME"/>
+	</Dependencies>
+	<ActionCriteria>
+		<Criteria id="always-true">
+			<AlwaysMet></AlwaysMet>
+		</Criteria>
+	</ActionCriteria>
+
+	<ActionGroups>
+	
+		<ActionGroup id="ai-main-all-eras" scope="game" criteria="always-true">
+			<Properties>
+				<LoadOrder>100</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>modules/data/ai_trees.xml</Item>
+					<Item>modules/data/art_intelligence_core.sql</Item>					
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+	</ActionGroups>
+</Mod>

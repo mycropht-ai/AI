@@ -1,0 +1,41 @@
+Core AI Behavior Changes:
+- Settler units now move more aggressively. Non-moving turn limit reduced from 5 to 1, making settlers much quicker to reach their destinations.
+- City founding is now a higher priority operation (Priority 4). The AI will be more focused on expansion.
+- AI cities get stronger defenses. Cities will maintain larger defensive forces with specific unit composition requirements.
+
+Military Improvements:
+- More balanced army compositions for city attacks:
+  - Minimum 3 melee units (up from 2)
+  - Up to 12 ranged units (up from 3)
+  - Settlers explicitly excluded from attack forces
+- Similar changes for Independent city attacks:
+  - Minimum 3 melee units (up from 1)
+  - Up to 12 ranged units (up from 2)
+  - Settlers protected from combat duty
+
+City Defense Overhaul:
+- New minimum requirements for city garrisons:
+  - At least 1 melee unit
+  - At least 1 ranged unit
+  - Up to 2 siege units allowed
+  - Settlers excluded from defensive duties
+- Defense trigger threshold lowered. Cities will form defensive armies more readily.
+
+Settlement Logic Updates:
+- Natural wonders now properly valued in city placement
+- Coastal settlements more carefully evaluated
+- Science-focused civs place higher priority on science. 
+- Exploration-focused civs more likely to settle near production tiles. 
+
+Explorer Changes:
+- Reduced explorer unit spam. AI will build fewer explorers, using them more strategically.
+
+Strategic Priorities:
+- Higher value placed on city upgrades
+- Increased emphasis on maintaining standing armies
+- New combat odds requirements:
+  - 35% minimum odds for attacking cities
+  - Same threshold for attacking barbarian outposts
+  - More cautious approach to military engagements
+
+This update makes the AI more aggressive with expansion while maintaining better defended cities. Military operations are more strategic with proper unit compositions. The core focus is on making the AI better at fundamental game mechanics - expanding, defending, and executing military operations with appropriate forces.
