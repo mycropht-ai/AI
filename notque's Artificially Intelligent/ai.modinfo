@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Mod id="notque-ai" version="1"
+<Mod id="notque-ai" version="1.05"
 	xmlns="ModInfo">
 	<Properties>
-		<Name>Artificially Intelligent</Name>
+		<Name>Artificially Intelligent 1.05</Name>
 		<Description>A mod that enhances AI behavior and decision making.</Description>
 		<Authors>notque</Authors>
 		<Package>Mod</Package>
@@ -24,7 +24,8 @@
 			</Properties>
 			<Actions>
 				<UpdateDatabase>
-					<Item>modules/data/ai_components.xml</Item>
+					<Item>modules/data/ai_trees.xml</Item>
+					<Item>modules/data/art_intelligence_core.sql</Item>
 				</UpdateDatabase>
 			</Actions>
 		</ActionGroup>
